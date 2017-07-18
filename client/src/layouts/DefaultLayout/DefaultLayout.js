@@ -12,7 +12,7 @@ const DefaultLayout = (props) => {
           <i className="material-icons header-stars">star</i>
           <i className="material-icons header-stars">star</i>
         </div>
-        <h2 className='site-name'>Welcome to Ratings</h2>
+        <h1 className='site-name'>Welcome to Ratings</h1>
       </div>
       <div className='App-body container'>
         {props.children}
