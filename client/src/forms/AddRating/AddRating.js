@@ -18,7 +18,6 @@ class AddRating extends Component {
       userEmail: this.state.email,
       rating: this.state.rating,
     })
-    .then(res => console.log(res))
     .then(res => this.setState({ email: '', rating: 1 }))
     .catch(err => console.log(err))
   }
@@ -44,13 +43,11 @@ class AddRating extends Component {
             <div className="form-group">
               <label>Rating</label>
               <div className='rating-stars'>
-                {Array(5).fill().map((_, i) => {
-                  return (
-                    <i className="material-icons rating-star" key={i} onClick={() => this.setState({rating: i + 1})}>
-                      {rating >= i + 1 ? 'star' : 'star_border'}
-                    </i>
-                  )
-                })}
+                {Array(5).fill().map((_, i) =>
+                  <i className="material-icons rating-star" key={i} onClick={() => this.setState({rating: i + 1})}>
+                    {rating >= i + 1 ? 'star' : 'star_border'}
+                  </i>
+                )}
               </div>
             </div>
             <button type="submit" className="btn btn-primary btn-block rating-button">Submit Rating</button>
@@ -62,12 +59,3 @@ class AddRating extends Component {
 }
 
 export default AddRating
-//
-// <input
-//   value={this.state.rating}
-//   onChange={e => this.setState({ rating: e.target.value })}
-//   type="text"
-//   className="form-control"
-//   placeholder="Rating"
-//   required
-// />
