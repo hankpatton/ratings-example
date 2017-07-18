@@ -1,10 +1,6 @@
 
 .add-rating-form {
   text-align: left;
-  /*display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;*/
   padding: 32px;
   margin-bottom: 44px;
   border: 1px solid #ddd;
@@ -18,4 +14,10 @@
 
 .rating-button {
   margin-top: 24px;
+}
+
+.rating-star {
+  font-size: 30px;
+  color: #f5a623;
+  cursor: pointer;
 }

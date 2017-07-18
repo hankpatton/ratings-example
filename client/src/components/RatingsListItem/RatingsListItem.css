@@ -1,0 +1,16 @@
+
+
+.ratings-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ratings-star {
+  font-size: 30px;
+  color: #f5a623;
+  cursor: pointer;
+}
