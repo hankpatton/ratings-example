@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { groupBy, meanBy, round } from 'lodash'
 
+import AddRatingForm from '../../forms/AddRating'
 import RatingsListItem from '../../components/RatingsListItem'
 
 class RatingsList extends Component {
@@ -29,17 +30,28 @@ class RatingsList extends Component {
     return (
       <div>
         <div className='row'>
+          <div className='col-sm-8 offset-sm-2'>
+            <AddRatingForm handleUpdate={this.fetchData.bind(this)} />
+          </div>
+        </div>
+        <div className='row'>
           <div className='col-sm-12'>
-            <h2>Users</h2>
+            <h2 style={{ textAlign: "center" }}>Users</h2>
           </div>
         </div>
         <div className='row'>
           <div className='col-sm-6 offset-sm-3'>
-            <div className='user-list'>
-              {Object.keys(this.state.ratings).map(user =>
-                <RatingsListItem key={user} user={user} rating={this.getUserAverage(user)} />
-              )}
-            </div>
+            {Object.keys(this.state.ratings).length > 0
+              ? (
+                <div className='user-list'>
+                  {Object.keys(this.state.ratings).map(user =>
+                    <RatingsListItem key={user} user={user} rating={this.getUserAverage(user)} />
+                  )}
+                </div>
+              )
+              : <div style={{ textAlign: 'center' }}>Sorry, no active users. Add a Rating!</div>
+            }
+
           </div>
         </div>
       </div>

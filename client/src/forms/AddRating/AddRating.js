@@ -19,41 +19,38 @@ class AddRating extends Component {
       rating: this.state.rating,
     })
     .then(res => this.setState({ email: '', rating: 1 }))
+    .then(res => this.props.handleUpdate())
     .catch(err => console.log(err))
   }
 
   render() {
     const { email, rating } = this.state
     return (
-      <div className='row'>
-        <div className='col-sm-8 offset-sm-2'>
-          <form className='add-rating-form' onSubmit={this.handleSubmit}>
-            <h4 className='add-rating-title'>Rate A User</h4>
-            <div className="form-group">
-              <label>Email address</label>
-              <input
-                value={email}
-                onChange={e => this.setState({ email: e.target.value })}
-                type="email"
-                className="form-control"
-                placeholder="Enter email"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Rating</label>
-              <div className='rating-stars'>
-                {Array(5).fill().map((_, i) =>
-                  <i className="material-icons rating-star" key={i} onClick={() => this.setState({rating: i + 1})}>
-                    {rating >= i + 1 ? 'star' : 'star_border'}
-                  </i>
-                )}
-              </div>
-            </div>
-            <button type="submit" className="btn btn-primary btn-block rating-button">Submit Rating</button>
-          </form>
+      <form className='add-rating-form' onSubmit={this.handleSubmit}>
+        <h4 className='add-rating-title'>Rate A User</h4>
+        <div className="form-group">
+          <label>Email address</label>
+          <input
+            value={email}
+            onChange={e => this.setState({ email: e.target.value })}
+            type="email"
+            className="form-control"
+            placeholder="Enter email"
+            required
+          />
         </div>
-      </div>
+        <div className="form-group">
+          <label>Rating</label>
+          <div className='rating-stars'>
+            {Array(5).fill().map((_, i) =>
+              <i className="material-icons rating-star" key={i} onClick={() => this.setState({rating: i + 1})}>
+                {rating >= i + 1 ? 'star' : 'star_border'}
+              </i>
+            )}
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary btn-block rating-button">Submit Rating</button>
+      </form>
     )
   }
 }
