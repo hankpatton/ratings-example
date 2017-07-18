@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 
 var index = require('./routes/index');
-var ratings = require('./routes/ratings');
 
 var app = express();
 
@@ -16,6 +15,7 @@ mongoose.connect('mongodb://localhost/saastest', { useMongoClient: true })
 
 //Get the default connection
 var db = mongoose.connection;
+mongoose.Promise = global.Promise
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
