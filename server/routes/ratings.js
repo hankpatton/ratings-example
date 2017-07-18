@@ -19,6 +19,7 @@ router.post('/', function(req, res, next) {
     .catch(err => console.log(err))
 });
 
+/* GET specific user ratings. */
 router.get('/:id', function(req, res, next) {
   Rating
     .find({userId: req.params.id})
