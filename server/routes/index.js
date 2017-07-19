@@ -1,7 +1,18 @@
-var express = require('express');
-var router = express.Router();
-var ratings = require('./ratings')
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
+const passportService = require('../services/passport')
 
-router.use('/ratings', ratings);
+//Require Auth Middleware
+const requireAuth = passport.authenticate('jwt', { session: false })
 
-module.exports = router;
+//Routes
+const ratings = require('./ratings')
+const users = require('./users')
+const authentication = require('./authentication')
+
+router.use('/auth', authentication)
+router.use('/ratings', requireAuth, ratings)
+router.use('/users', requireAuth, users)
+
+module.exports = router
