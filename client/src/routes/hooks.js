@@ -1,5 +1,5 @@
 
-
+// redirect users to signin if not signed in
 export function requireAuth() {
   return function(nextState, replace, cb) {
     if (!window.localStorage.getItem('token')) {
@@ -15,7 +15,7 @@ export function requireAuth() {
   }
 }
 
-
+// redirect users away from signin if already signed in
 export function redirectSignin() {
   return function(nextState, replace, cb) {
     if (window.localStorage.getItem('token')) {
