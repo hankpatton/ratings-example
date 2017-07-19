@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { signOutUser } from '../../store/actions'
 import './DefaultLayout.css';
 
-const DefaultLayout = (props) => {
+const DefaultLayout = ({ authenticated, children, signOutUser }) => {
   return (
     <div className="App">
       <div className="App-header">
@@ -13,12 +15,20 @@ const DefaultLayout = (props) => {
           <i className="material-icons header-stars">star</i>
         </div>
         <h1 className='site-name'>Welcome to Ratings</h1>
+        {authenticated &&
+          <div onClick={signOutUser}>logout</div>
+        }
       </div>
       <div className='App-body container'>
-        {props.children}
+        {children}
       </div>
     </div>
   )
 }
 
-export default DefaultLayout;
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated
+  }
+}
+export default connect(mapStateToProps, { signOutUser })(DefaultLayout)

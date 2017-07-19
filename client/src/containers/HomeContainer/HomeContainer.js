@@ -16,7 +16,9 @@ class RatingsList extends Component {
   }
 
   fetchData() {
-    axios.get('/api/ratings')
+    axios.get('/api/ratings', {
+      headers: { authorization: localStorage.getItem('token')}
+    })
       //reorder data by user for this view (hack to change later)
       .then(res => this.setState({ ratings: groupBy(res.data, "userEmail"), loading: false }))
       .catch(error => this.setState({ loading: false, error: error }))
