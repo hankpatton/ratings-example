@@ -7,6 +7,9 @@ const DefaultLayout = ({ authenticated, children, signOutUser }) => {
   return (
     <div className="App">
       <div className="App-header">
+        {authenticated &&
+          <button className='btn btn-sm btn-danger logout-btn' onClick={signOutUser}>logout</button>
+        }
         <div>
           <i className="material-icons header-stars">star</i>
           <i className="material-icons header-stars">star</i>
@@ -15,9 +18,6 @@ const DefaultLayout = ({ authenticated, children, signOutUser }) => {
           <i className="material-icons header-stars">star</i>
         </div>
         <h1 className='site-name'>Welcome to Ratings</h1>
-        {authenticated &&
-          <div onClick={signOutUser}>logout</div>
-        }
       </div>
       <div className='App-body container'>
         {children}

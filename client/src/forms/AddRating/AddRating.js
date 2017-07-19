@@ -6,38 +6,56 @@ class AddRating extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      rating: 1
+      id: '',
+      rating: 1,
+      loading: false,
+      users: []
     }
-    this.handleSubmit = this._handleSubmit.bind(this)
   }
 
-  _handleSubmit(e) {
+  componentDidMount() {
+    this.fetchUsers()
+  }
+
+  fetchUsers() {
+    axios
+      .get('/api/users', { headers: { authorization: localStorage.getItem('token')}})
+      .then(res => this.setState({ users: res.data, loading: false }))
+      .catch(error => this.setState({ loading: false, error: error }))
+  }
+
+  handleSubmit = (e) => {
     e.preventDefault()
     axios.post('/api/ratings', {
-      userEmail: this.state.email,
+      user: this.state.id,
       rating: this.state.rating,
+    }, {
+      headers: { authorization: localStorage.getItem('token')}
     })
-    .then(res => this.setState({ email: '', rating: 1 }))
-    .then(res => this.props.handleUpdate())
+    .then(res => this.setState({ id: '', rating: 1 }))
     .catch(err => console.log(err))
   }
 
   render() {
-    const { email, rating } = this.state
+    const { id, rating, users } = this.state
     return (
       <form className='add-rating-form' onSubmit={this.handleSubmit}>
         <h4 className='add-rating-title'>Rate A User</h4>
         <div className="form-group">
           <label>Email address</label>
-          <input
-            value={email}
-            onChange={e => this.setState({ email: e.target.value })}
+          <select
+            value={id}
+            onChange={e => this.setState({ id: e.target.value })}
             type="email"
             className="form-control"
             placeholder="Enter email"
             required
-          />
+          >
+            <option value="" disabled>Select a User</option>
+            {users.map((user, i) => {
+              return <option key={i} value={user._id}>{user.email}</option>
+            })}
+          </select>
         </div>
         <div className="form-group">
           <label>Rating</label>

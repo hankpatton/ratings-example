@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
-import { signInUser } from '../../store/actions'
+import { signUpUser } from '../../store/actions'
 
 class SignUp extends Component {
   handleFormSubmit = ({ email, password }) => {
-    this.props.signInUser({ email, password })
+    this.props.signUpUser({ email, password })
   }
 
   render() {
@@ -20,6 +20,7 @@ class SignUp extends Component {
             type="text"
             placeholder="Email"
             className='form-control'
+            required
           />
         </div>
         <div className='form-group'>
@@ -30,6 +31,7 @@ class SignUp extends Component {
             type="password"
             placeholder="Password"
             className='form-control'
+            required
           />
         </div>
         <div className='form-group'>
@@ -40,14 +42,15 @@ class SignUp extends Component {
             type="password"
             placeholder="Confirm Password"
             className='form-control'
+            required
           />
         </div>
-        {this.props.errorMessage &&
+        {errorMessage &&
           <div className='alert alert-danger'>
-            {this.props.errorMessage}
+            {errorMessage}
           </div>
         }
-        <button type="submit" className='btn btn-primary'>Sign In</button>
+        <button type="submit" className='btn btn-primary'>Sign Up</button>
       </form>
     )
   }
@@ -63,4 +66,4 @@ SignUp = reduxForm({
   form: 'signup'
 })(SignUp)
 
-export default connect(mapStateToProps, { signInUser })(SignUp)
+export default connect(mapStateToProps, { signUpUser })(SignUp)

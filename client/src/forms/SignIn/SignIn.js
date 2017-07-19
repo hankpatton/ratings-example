@@ -20,6 +20,7 @@ class SignIn extends Component {
             type="text"
             placeholder="Email"
             className='form-control'
+            required
           />
         </div>
         <div className='form-group'>
@@ -30,6 +31,7 @@ class SignIn extends Component {
             type="password"
             placeholder="Password"
             className='form-control'
+            required
           />
         </div>
         {this.props.errorMessage &&
