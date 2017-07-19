@@ -1,10 +1,17 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const Rating = require('./rating')
 const bcrypt = require('bcrypt-nodejs')
 
 const userSchema = new Schema({
   email: { type: String, unique: true },
   password: String
+})
+
+userSchema.virtual('ratings', {
+  ref: 'Rating',
+  localField: '_id',
+  foreignField: 'user'
 })
 
 // Hash password before saving to backend
@@ -27,5 +34,9 @@ userSchema.methods.comparePassword = function(givenPassword, cb) {
     cb(null, isMatch)
   })
 }
+
+userSchema.set('toJSON', {
+  virtuals: true
+})
 
 module.exports = mongoose.model('User', userSchema)

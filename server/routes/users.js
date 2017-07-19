@@ -6,6 +6,7 @@ const router = express.Router()
 router.get('/', (req, res, next) => {
   User
     .find({})
+    .populate('ratings')
     .then((data) => res.json(data))
     .catch(err => next(err))
 })
