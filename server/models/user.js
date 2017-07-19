@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Rating = require('./rating')
 const bcrypt = require('bcrypt-nodejs')
+const _ = require('lodash')
 
 const userSchema = new Schema({
   email: { type: String, unique: true },
@@ -12,6 +13,11 @@ userSchema.virtual('ratings', {
   ref: 'Rating',
   localField: '_id',
   foreignField: 'user'
+})
+
+userSchema.virtual('ratings_average').get(function () {
+  if (this.ratings.length === 0) { return 0 }
+  return _.round(_.meanBy(this.ratings.map(rating => parseInt(rating.rating))))
 })
 
 // Hash password before saving to backend
