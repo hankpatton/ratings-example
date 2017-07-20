@@ -8,7 +8,6 @@ class AddRating extends Component {
     this.state = {
       id: '',
       rating: 1,
-      loading: false,
       users: []
     }
   }
@@ -20,8 +19,14 @@ class AddRating extends Component {
   fetchUsers() {
     axios
       .get('/api/users', { headers: { authorization: localStorage.getItem('token')}})
-      .then(res => this.setState({ users: res.data, loading: false }))
-      .catch(error => this.setState({ loading: false, error: error }))
+      .then(res => this.setState({ users: res.data }))
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem('token')
+          window.location.href = '/signin'
+        }
+        console.log(error)
+      })
   }
 
   handleSubmit = (e) => {
@@ -33,7 +38,13 @@ class AddRating extends Component {
       headers: { authorization: localStorage.getItem('token')}
     })
     .then(res => this.setState({ id: '', rating: 1 }))
-    .catch(err => console.log(err))
+    .catch(error => {
+      if (error.response.status === 401) {
+        localStorage.removeItem('token')
+        window.location.href = '/signin'
+      }
+      console.log(error)
+    })
   }
 
   render() {
