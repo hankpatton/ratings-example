@@ -1,23 +1,37 @@
 import React, { Component } from 'react'
-import { reduxForm, Field } from 'redux-form'
-import { connect } from 'react-redux'
-import { signInUser } from '../../store/actions'
+import axios from 'axios'
+import { browserHistory } from 'react-router'
 
 class SignIn extends Component {
-  handleFormSubmit = ({ email, password }) => {
-    this.props.signInUser({ email, password })
+  state = {
+    email: '',
+    password: '',
+    error: ''
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    axios
+      .post('/api/auth/signin', { email: this.state.email, password: this.state.password })
+      .then(res => {
+        localStorage.setItem('token', res.data.token)
+        browserHistory.push('/')
+      })
+      .catch(() => {
+        this.setState({ error: 'Incorrect email or password' })
+      })
   }
 
   render() {
-    const { handleSubmit, errorMessage } = this.props
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+      <form onSubmit={this.handleSubmit}>
         <div className='form-group'>
           <label>Email</label>
-          <Field
+          <input
+            value={this.state.email}
+            onChange={(e) => this.setState({ email: e.target.value })}
             name="email"
-            component="input"
-            type="text"
+            type="email"
             placeholder="Email"
             className='form-control'
             required
@@ -25,18 +39,19 @@ class SignIn extends Component {
         </div>
         <div className='form-group'>
           <label>Password</label>
-          <Field
+          <input
+            value={this.state.password}
+            onChange={(e) => this.setState({ password: e.target.value })}
             name="password"
-            component="input"
             type="password"
             placeholder="Password"
             className='form-control'
             required
           />
         </div>
-        {this.props.errorMessage &&
+        {this.state.error &&
           <div className='alert alert-danger'>
-            {errorMessage}
+            {this.state.error}
           </div>
         }
         <button type="submit" className='btn btn-primary'>Sign In</button>
@@ -45,14 +60,4 @@ class SignIn extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error
-  }
-}
-
-SignIn = reduxForm({
-  form: 'signin'
-})(SignIn)
-
-export default connect(mapStateToProps, { signInUser })(SignIn)
+export default SignIn
