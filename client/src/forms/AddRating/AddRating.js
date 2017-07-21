@@ -20,13 +20,7 @@ class AddRating extends Component {
     axios
       .get('/api/users', { headers: { authorization: localStorage.getItem('token')}})
       .then(res => this.setState({ users: res.data }))
-      .catch(error => {
-        if (error.response.status === 401) {
-          localStorage.removeItem('token')
-          window.location.href = '/signin'
-        }
-        console.log(error)
-      })
+      .catch(error => console.log(error))
   }
 
   handleSubmit = (e) => {

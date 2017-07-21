@@ -1,3 +1,4 @@
+import axios from 'axios'
 
 // redirect users to signin if not signed in
 export function requireAuth() {
@@ -11,6 +12,12 @@ export function requireAuth() {
       })
       return cb()
     }
+    axios
+      .get('/api/users/me', { headers: { authorization: localStorage.getItem('token')}})
+      .catch(error => {
+        localStorage.removeItem('token')
+        window.location.href = '/signin'
+      })
     cb()
   }
 }
