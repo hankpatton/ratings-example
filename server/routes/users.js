@@ -11,4 +11,12 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err))
 })
 
+/* GET all ratings. */
+router.get('/me', (req, res, next) => {
+  res.json({
+    id: req.user._id,
+    email: req.user.email
+  })
+})
+
 module.exports = router
